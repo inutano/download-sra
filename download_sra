@@ -45,4 +45,9 @@ case ${2} in
     ;;
 esac
 
-wget -O "${run_id}.sra" ${data_url}
+if [[ ! -z ${run_id} ]]; then
+  wget -O "${run_id}.sra" ${data_url}
+else
+  echo "usage: download_sra <SRA Run ID> [ncbi|ebi|ddbj]"
+  exit 1
+fi
