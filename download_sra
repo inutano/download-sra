@@ -13,7 +13,12 @@ get_ncbi_url(){
 get_ebi_url(){
   local id=${1}
   local base="ftp://ftp.sra.ebi.ac.uk/vol1"
-  local url="${base}/$(echo ${id:0:3} | tr [:lower:] [:upper:])/${id:0:6}/${id}"
+  local pdir="${base}/$(echo ${id:0:3} | tr [:upper:] [:lower:])/${id:0:6}"
+  if test $(printf ${id} | wc -c) -eq 10; then
+    local url="${pdir}/00${id: -1}/${id}"
+  else
+    local url="${pdir}/${id}"
+  fi
   echo ${url}
 }
 
