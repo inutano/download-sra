@@ -30,24 +30,40 @@ get_ddbj_url(){
   echo ${url}
 }
 
-case ${2} in
-  "ncbi" | "NCBI" )
-    data_url="$(get_ncbi_url ${run_id})"
-    ;;
-  "ebi" | "EBI" )
-    data_url="$(get_ebi_url ${run_id})"
-    ;;
-  "ddbj" | "DDBJ" )
-    data_url="$(get_ddbj_url ${run_id})"
-    ;;
-  *)
-    data_url="$(get_ncbi_url ${run_id})"
-    ;;
-esac
-
-if [[ ! -z ${run_id} ]]; then
-  wget -O "${run_id}.sra" ${data_url}
-else
-  echo "usage: download_sra <SRA Run ID> [ncbi|ebi|ddbj]"
+if test $# -eq 0; then
+  echo "usage: download_sra [-r|--repo] [ncbi|ebi|ddbj] <SRA Run ID>[ <Run ID>..]"
   exit 1
+else
+  while test $# -gt 0; do
+    key=${1}
+    case ${key} in
+      "-r" | "--repo" | "--repository" )
+        REPO=${2}
+        shift
+        ;;
+      ?RR[0-9]* )
+        RUN_ID="${key} ${RUN_ID}"
+        ;;
+    esac
+    shift
+  done
 fi
+
+for run_id in ${RUN_ID}; do
+  case ${REPO} in
+    "ncbi" | "NCBI" )
+      data_url="$(get_ncbi_url ${run_id})"
+      ;;
+    "ebi" | "EBI" )
+      data_url="$(get_ebi_url ${run_id})"
+      ;;
+    "ddbj" | "DDBJ" )
+      data_url="$(get_ddbj_url ${run_id})"
+      ;;
+    *)
+      data_url="$(get_ncbi_url ${run_id})"
+      ;;
+  esac
+
+  wget -O "${run_id}.sra" ${data_url}
+done
