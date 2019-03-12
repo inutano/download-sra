@@ -1,5 +1,7 @@
 # Download SRA
 
+[![DOI](https://zenodo.org/badge/136470994.svg)](https://zenodo.org/badge/latestdoi/136470994)
+
 A simple download tool to download `.sra` file from a repository of [INSDC](http://insdc.org) members.
 
 ## Why not `prefetch`?
