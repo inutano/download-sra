@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 run_id="${1}"
 
 DDBJ_API_EP="http://13.231.66.138/api/sra/accession"
