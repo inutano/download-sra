@@ -35,7 +35,7 @@ func getDDBJURL(runid, expid string) (sraUrl *url.URL) {
 	return
 }
 
-func GetUrl(repo *string, accid, expid, runid string) (sraUrl *url.URL) {
+func GetUrl(repo *string, expid, runid string) (sraUrl *url.URL) {
 	switch *repo {
 	case "ebi":
 		sraUrl = getEBIURL(runid)

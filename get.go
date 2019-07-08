@@ -12,8 +12,8 @@ func get(app *kingpin.Application) {
 	repo := cmd.Flag("repo", "Repository to use").Default("ebi").String()
 
 	cmd.Action(func(c *kingpin.ParseContext) error {
-		accid, expid, runid := GetAccessions(id)
-		url := GetUrl(repo, accid, expid, runid)
+		expid, runid := GetAccessions(id)
+		url := GetUrl(repo, expid, runid)
 
 		fmt.Printf("Downloading data from %s\n", url)
 		FtpGet(url)

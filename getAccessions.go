@@ -8,6 +8,6 @@ type Accession struct {
 	runid        []string
 }
 
-func GetAccessions(id *string) (accid, expid, runid string) {
-	return "DRA000001", "DRX000001", "DRR000001"
+func GetAccessions(id *string) (expid, runid string) {
+	return "DRX000001", "DRR000001"
 }
