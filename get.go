@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -13,10 +15,9 @@ func get(app *kingpin.Application) {
 		accid, expid, runid := GetAccessions(id)
 		url := GetUrl(repo, accid, expid, runid)
 
-		err := Downloadfile("data.sra", url.String())
-		if err != nil {
-			panic(err)
-		}
+		fmt.Printf("Downloading data from %s\n", url)
+		FtpGet(url)
+		fmt.Printf("Download finished.\n")
 
 		return nil
 	})
