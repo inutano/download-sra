@@ -15,7 +15,7 @@ func getEBIURL(runid string) (sraUrl *url.URL) {
 	case 9:
 		sraUrl.Path = path.Join(sraUrl.Path, runid)
 	case 10:
-		sraUrl.Path = path.Join(sraUrl.Path, "00", runid[len(runid)-1:], runid)
+		sraUrl.Path = path.Join(sraUrl.Path, "00"+runid[len(runid)-1:], runid)
 	default:
 	}
 	return
