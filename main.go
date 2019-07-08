@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// App definition
-	app := kingpin.New("kurekure", "A command-line interface for Sequence Read Archive")
+	app := kingpin.New("gosra", "A command-line interface to get data from Sequence Read Archive")
 
 	// Define help
 	app.HelpFlag.Short('h')

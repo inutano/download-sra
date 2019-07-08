@@ -1,4 +1,4 @@
-module kurekure
+module gosra
 
 go 1.12
 
