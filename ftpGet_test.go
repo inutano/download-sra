@@ -17,7 +17,9 @@ func TestFtpGet(t *testing.T) {
 	tests := []struct {
 		name, url string
 	}{
-		{"DRR007230 from DDBJ", "ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/sralite/ByExp/litesra/DRX/DRX006/DRX006419/DRR007230/DRR007230.sra"},
+		{"SRR1215802 from DDBJ", "ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/sralite/ByExp/litesra/SRX/SRX509/SRX509580/SRR1215802/SRR1215802.sra"},
+		{"SRR1215802 from NCBI", "ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/SRR/SRR121/SRR1215802/SRR1215802.sra"},
+		{"SRR1215802 from EBI", "ftp://ftp.sra.ebi.ac.uk/vol1/srr/SRR121/002/SRR1215802"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
