@@ -7,10 +7,28 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
+	"github.com/dustin/go-humanize"
 	"github.com/jlaffaye/ftp"
 )
+
+type WriteCounter struct {
+	Total uint64
+}
+
+func (wc *WriteCounter) Write(p []byte) (int, error) {
+	n := len(p)
+	wc.Total += uint64(n)
+	wc.PrintProgress()
+	return n, nil
+}
+
+func (wc WriteCounter) PrintProgress() {
+	fmt.Printf("\r%s", strings.Repeat(" ", 35))
+	fmt.Printf("\rDownloading, %s complete", humanize.Bytes(wc.Total))
+}
 
 // FtpGet : Download file from FTP Server
 func FtpGet(ftpURL *url.URL) {
@@ -18,8 +36,9 @@ func FtpGet(ftpURL *url.URL) {
 	p := ftpURL.Path
 	d := filepath.Dir(p)
 	b := filepath.Base(p)
+	sraFileName := strings.TrimSuffix(b, filepath.Ext(b)) + ".sra"
 
-	out, err := os.Create(b + ".tmp")
+	out, err := os.Create(sraFileName + ".tmp")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -54,7 +73,7 @@ func FtpGet(ftpURL *url.URL) {
 
 	fmt.Print("\n")
 
-	err = os.Rename(b+".tmp", b)
+	err = os.Rename(sraFileName+".tmp", sraFileName)
 	if err != nil {
 		log.Fatal(err)
 	}
