@@ -16,6 +16,8 @@ get_ebi_url(){
   local pdir="${base}/$(echo ${id:0:3} | tr [:upper:] [:lower:])/${id:0:6}"
   if test $(printf ${id} | wc -c) -eq 10; then
     local url="${pdir}/00${id: -1}/${id}"
+  elif test $(printf ${id} | wc -c) -eq 11; then
+    local url="${pdir}/0${id: -2}/${id}"
   else
     local url="${pdir}/${id}"
   fi
