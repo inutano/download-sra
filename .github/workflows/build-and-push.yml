@@ -30,4 +30,4 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ env.GITHUB_REPOSITORY }}:${{ env.GIT_HASH }}
+            ghcr.io/${{ github.GITHUB_REPOSITORY }}:${{ env.GIT_HASH }}
