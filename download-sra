@@ -1,8 +1,6 @@
 #!/bin/sh
 run_id="${1}"
 
-DDBJ_API_EP="http://13.231.66.138/api/sra/accession"
-
 get_ncbi_url(){
   local id=${1}
   local base="ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra"
@@ -26,10 +24,11 @@ get_ebi_url(){
 
 get_ddbj_url(){
   local id=${1}
-  local base="ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/sralite/ByExp/litesra"
-  local expid=$(curl ${DDBJ_API_EP}/${id} | jq -r .Experiment)
-  local url="${base}/${expid:0:3}/${expid:0:6}/${expid}/${id}/${id}.sra"
-  echo ${url}
+  local urlbase="ftp://ftp.ddbj.nig.ac.jp"
+  local sralist="${urlbase}/ddbj_database/dra/meta/list/sralist"
+  cd "/tmp" && wget -N ${sralist}
+  local url=$(awk '/'"${id}"'.sra/ { print $1 }' $(basename ${sralist}) | head -1)
+  echo "${urlbase}/${url}"
 }
 
 if test $# -eq 0; then
