@@ -26,7 +26,7 @@ get_ddbj_url(){
   local id=${1}
   local urlbase="ftp://ftp.ddbj.nig.ac.jp"
   local sralist="${urlbase}/ddbj_database/dra/meta/list/sralist"
-  cd "/tmp" && wget -N ${sralist}
+  cd "/tmp" && wget --quiet -N ${sralist}
   local url=$(awk '/'"${id}"'.sra/ { print $1 }' $(basename ${sralist}) | head -1)
   echo "${urlbase}/${url}"
 }
@@ -66,5 +66,5 @@ for run_id in ${RUN_ID}; do
       ;;
   esac
 
-  wget -O "${run_id}.sra" ${data_url}
+  wget --quiet -O "${run_id}.sra" ${data_url}
 done
