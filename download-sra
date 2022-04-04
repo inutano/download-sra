@@ -43,7 +43,7 @@ download_from_ddbj() {
 }
 
 if test $# -eq 0; then
-  echo "usage: download_sra [-r|--repo] [ncbi|ebi|ddbj] <SRA Run ID>[ <Run ID>..]"
+  echo "usage: download_sra [-v] [-r|--repo] [ebi|ddbj] <SRA Run ID>[ <Run ID>..]"
   exit 1
 else
   while test $# -gt 0; do

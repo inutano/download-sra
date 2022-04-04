@@ -17,7 +17,7 @@ Because we are living far away from Maryland. `download-sra` can choose a reposi
 
 ```
 $ ./download-sra
-usage: download_sra [-r|--repo] [ncbi|ebi|ddbj] <SRA Run ID>[ <Run ID>..]
+usage: download_sra [-v] [-r|--repo] [ebi|ddbj] <SRA Run ID>[ <Run ID>..]
 ```
 
 Try with `SRR1274307` which is a .sra file less than 1MB.
