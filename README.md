@@ -10,25 +10,43 @@ Because we are living far away from Maryland. `download-sra` can choose a reposi
 
 ## Prerequisites
 
-- `wget`
 - `curl`
-- [`jq`](https://stedolan.github.io/jq/)
+- [`prefetch`](https://github.com/ncbi/sra-tools/wiki/01.-Downloading-SRA-Toolkit) (to download data from NCBI)
 
 ## Usage
 
 ```
-$ download-sra SRR000001
-$ download-sra SRR000001 NCBI
-$ download-sra SRR000001 EBI
-$ download-sra SRR000001 DDBJ
+$ ./download-sra
+usage: download_sra [-r|--repo] [ncbi|ebi|ddbj] <SRA Run ID>[ <Run ID>..]
+```
+
+Try with `SRR1274307` which is a .sra file less than 1MB.
+Get data from DDBJ:
+
+```
+download-sra SRR1274307
+```
+
+or
+
+```
+download-sra -r DDBJ SRR1274307
+```
+
+Use EBI:
+
+```
+download-sra -r EBI SRR1274307
 ```
 
 ## Docker Container
 
-Available on [Quay.io](https://quay.io/repository/inutano/download-sra)
+Available on [GHCR](https://github.com/inutano/download-sra/pkgs/container/download-sra)
 
 ```
-$ docker run --rm -it -v $(pwd):/work -w /work quay.io/inutano/download-sra:0.1.2 download-sra "DRR000001" "NCBI"
-$ docker run --rm -it -v $(pwd):/work -w /work quay.io/inutano/download-sra:0.1.2 download-sra "DRR000001" "EBI"
-$ docker run --rm -it -v $(pwd):/work -w /work quay.io/inutano/download-sra:0.1.2 download-sra "DRR000001" "DDBJ"
+docker run --rm -it -v $(pwd):/work -w /work docker pull ghcr.io/inutano/download-sra:cb2bba4 download-sra -r "DDBJ" "SRR1274307"
+```
+
+```
+docker run --rm -it -v $(pwd):/work -w /work docker pull ghcr.io/inutano/download-sra:cb2bba4 download-sra -r "EBI" "SRR1274307"
 ```

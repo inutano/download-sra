@@ -1,12 +1,4 @@
 #!/bin/sh
-run_id="${1}"
-
-get_ncbi_url(){
-  local id=${1}
-  local base="ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra"
-  local url="${base}/${id:0:3}/${id:0:6}/${id}/${id}.sra"
-  echo ${url}
-}
 
 get_ebi_url(){
   local id=${1}
@@ -22,13 +14,32 @@ get_ebi_url(){
   echo ${url}
 }
 
+get_experiment_from_run() {
+  local id=${1}
+  local api_url="https://api.togoid.dbcls.jp/convert?format=tsv&report=target&route=sra_run,sra_experiment&ids=${id}"
+  curl ${api_url} | tail -n 1
+}
+
 get_ddbj_url(){
   local id=${1}
-  local urlbase="ftp://ftp.ddbj.nig.ac.jp"
-  local sralist="${urlbase}/ddbj_database/dra/meta/list/sralist"
-  cd "/tmp" && wget --quiet -N ${sralist}
-  local url=$(awk '/'"${id}"'.sra/ { print $1 }' $(basename ${sralist}) | head -1)
-  echo "${urlbase}/${url}"
+  local expid="$(get_experiment_from_run "${id}")"
+  local url="ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/sralite/ByExp/litesra/${expid:0:3}/${expid:0:6}/${expid}/${id}/${id}.sra"
+  echo ${url}
+}
+
+download_from_ncbi() {
+  local run_id=${1}
+  prefetch "${run_id}"
+}
+
+download_from_ebi() {
+  local run_id=${1}
+  curl -s --output "${run_id}.sra" "$(get_ebi_url ${run_id})"
+}
+
+download_from_ddbj() {
+  local run_id=${1}
+  curl -s --output "${run_id}.sra" "$(get_ddbj_url ${run_id})"
 }
 
 if test $# -eq 0; then
@@ -42,6 +53,9 @@ else
         REPO=${2}
         shift
         ;;
+      "-v" )
+        set -x
+        ;;
       ?RR[0-9]* )
         RUN_ID="${key} ${RUN_ID}"
         ;;
@@ -53,18 +67,16 @@ fi
 for run_id in ${RUN_ID}; do
   case ${REPO} in
     "ncbi" | "NCBI" )
-      data_url="$(get_ncbi_url ${run_id})"
+      download_from_ncbi "${run_id}"
       ;;
     "ebi" | "EBI" )
-      data_url="$(get_ebi_url ${run_id})"
+      download_from_ebi "${run_id}"
       ;;
     "ddbj" | "DDBJ" )
-      data_url="$(get_ddbj_url ${run_id})"
+      download_from_ddbj "${run_id}"
       ;;
     *)
-      data_url="$(get_ncbi_url ${run_id})"
+      download_from_ddbj "${run_id}"
       ;;
   esac
-
-  wget --quiet -O "${run_id}.sra" ${data_url}
 done
