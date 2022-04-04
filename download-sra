@@ -17,7 +17,7 @@ get_ebi_url(){
 get_experiment_from_run() {
   local id=${1}
   local api_url="https://api.togoid.dbcls.jp/convert?format=tsv&report=target&route=sra_run,sra_experiment&ids=${id}"
-  curl ${api_url} | tail -n 1
+  curl -s ${api_url} | tail -n 1 | tr -d '\r'
 }
 
 get_ddbj_url(){
