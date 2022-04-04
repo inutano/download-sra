@@ -44,9 +44,9 @@ download-sra -r EBI SRR1274307
 Available on [GHCR](https://github.com/inutano/download-sra/pkgs/container/download-sra)
 
 ```
-docker run --rm -it -v $(pwd):/work -w /work docker pull ghcr.io/inutano/download-sra:cb2bba4 download-sra -r "DDBJ" "SRR1274307"
+docker run --rm -it -v $(pwd):/work -w /work docker pull ghcr.io/inutano/download-sra:177141a download-sra -r "DDBJ" "SRR1274307"
 ```
 
 ```
-docker run --rm -it -v $(pwd):/work -w /work docker pull ghcr.io/inutano/download-sra:cb2bba4 download-sra -r "EBI" "SRR1274307"
+docker run --rm -it -v $(pwd):/work -w /work docker pull ghcr.io/inutano/download-sra:177141a download-sra -r "EBI" "SRR1274307"
 ```
